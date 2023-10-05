@@ -2,6 +2,7 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from fastapi import FastAPI, Query, Query, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+import textwrap
 import torch
 
 device = torch.device('cuda:0')
@@ -34,6 +35,25 @@ async def orca_generate(input_text: str = Query(..., description="The input text
         generated_text = tokenizer.decode(output[0].to('cuda:0'), skip_special_tokens=True)
 
         return {"generated_text": generated_text}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/orca_codegen/")
+async def orca_codegen(input_text: str = Query(..., description="The input text to generate Python code from")):
+    try:
+        # Tokenize and generate text
+        input_ids = tokenizer.encode(input_text, return_tensors='pt').to(device)
+        output = model.generate(input_ids, max_length=250)
+        generated_text = tokenizer.decode(output[0].to('cuda:0'), skip_special_tokens=True)
+
+        # Format as Python code
+        formatted_code = textwrap.indent(generated_text, '    ')
+
+        # Add Markdown Python code formatting
+        markdown_formatted_code = f"```python\n{formatted_code}\n```"
+
+        return {"generated_code": markdown_formatted_code}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

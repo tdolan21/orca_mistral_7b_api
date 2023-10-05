@@ -11,4 +11,5 @@ einops
 chardet
 charset_normalizer
 protobuf
+textwrap
 sentencepiece
