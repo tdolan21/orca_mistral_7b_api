@@ -39,7 +39,7 @@ async def orca_generate(input_text: str = Query(..., description="The input text
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/orca_codegen/")
+@app.post("/orca/codegen/")
 async def orca_codegen(input_text: str = Query(..., description="The input text to generate Python code from")):
     try:
         # Tokenize and generate text
