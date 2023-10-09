@@ -35,6 +35,8 @@ WORKDIR /app
 # Copy requirements and install Python packages
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+#Install a dev version of transformers
 RUN pip install git+https://github.com/huggingface/transformers
 
 

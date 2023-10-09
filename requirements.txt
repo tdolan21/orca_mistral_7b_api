@@ -3,7 +3,6 @@ fastapi-limiter
 cachetools
 Pillow==10.0.0
 Requests==2.31.0
-transformers==4.31.0
 python-multipart
 uvicorn
 python-dotenv
@@ -11,5 +10,4 @@ einops
 chardet
 charset_normalizer
 protobuf
-textwrap
 sentencepiece
